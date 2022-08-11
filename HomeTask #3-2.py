@@ -2,17 +2,16 @@
 
 class Dish:
 
-    def __init__(self, name, ingredient, qty, uom):
+    def __init__(self, name, ingredients, qty, uom):
        self.name = name
-       self.ingredient = ingredient
+       self.ingredients = ingredients
        self.qty = qty
        self.uom = uom
 
     def purchase_list(self, persons):
         print(f'{self.name.capitalize()}:')
-        for i, elem in enumerate(self.ingredient):
+        for i, elem in enumerate(self.ingredients):
             print(elem, self.qty[i] * persons, self.uom[i])
-
 
 # class Ingredient:
 #     def __init__(self, name, qty, uom):
