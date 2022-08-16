@@ -1,48 +1,23 @@
-from encodings import utf_8
-from pprint import pprint
-
-class Recipe_file:
-
-    def __init__(self) -> None:
-        self.dish_name = ''
-        self.ingredients_quantity = 0
-        self.ingredients = []
-
-    def get_all_recipes(self, filepath):
-        result = {}
-        with open(filepath, 'r', encoding='utf-8') as file:
-            sample = file.readlines()
-            for element in sample:
-                element = element.strip('\n')
-                if element == '':
-                    result[self.dish_name] = self.ingredients
-                    self.ingredients = []
-                elif '|' in element:
-                    self.ingredients.append({'ingredient_name': element.split(' | ')[0], 
-                                             'quantity': element.split(' | ')[1], 
-                                             'measure': element.split(' | ')[2]})
-                elif element.isdigit():
-                    self.ingredients_quantity = int(element)
-                else:
-                    self.dish_name = element
-            result[self.dish_name] = self.ingredients
-        return result
-
-def get_shop_list_by_dishes(dishes, person_count):
-    result = {}
-    for dish in dishes:
-        for ingredient in cook_book[dish]:
-            if ingredient['ingredient_name'] not in result:
-                result[ingredient['ingredient_name']] = ({'measure': ingredient['measure'], 
-                                                      'quantity': int(ingredient['quantity']) * person_count})
+def split_recipes_to_files():   
+    with open('support_files/recipes.txt', 'r', encoding = 'utf-8') as file:
+        recipe = []
+        for line in file:
+            if line != "\n":
+                recipe.append(line)
             else:
-                result[ingredient['ingredient_name']]['quantity'] += int(ingredient['quantity']) * person_count
-    return result
-cook_book_recipes = Recipe_file()
-cook_book = cook_book_recipes.get_all_recipes('support_files/recipes.txt')
-pprint(cook_book)
-# pprint(get_shop_list_by_dishes(['Омлет','Фахитос'],3))
-# pprint(get_shop_list_by_dishes(['Запеченный картофель', 'Омлет'], 2))
+                dish_name = recipe[0].strip("\n")
+                new_recipe = f'support_files/recipes/{dish_name}.txt'
+                with open(new_recipe, 'w', encoding = 'utf-8') as new_file:
+                    new_file.writelines(recipe)
+                recipe = []
+        dish_name = recipe[0].strip("\n")
+        new_recipe = f'support_files/recipes/{dish_name}.txt'
+        with open(new_recipe, 'w', encoding = 'utf-8') as new_file:
+            new_file.writelines(recipe)
+
+# split_recipes_to_files()
+
+
 
 
 # Необходимо написать программу для кулинарной книги.
