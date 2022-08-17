@@ -17,10 +17,42 @@ def split_recipes_to_files():
 
 # split_recipes_to_files()
 
+def get_recipe_from_file(filename):
+    filepath = f'support_files/recipes/{filename}.txt'
+    with open(filepath, 'rt', encoding = 'utf-8') as file:
+        recipe = []
+        for line in file:
+            if "|" in line:
+                line = line.strip("\n")
+                data = line.split(" | ")
+                recipe.append({'ingredient_name': data[0],
+                        'quantity': int(data[1]),
+                        'measure': data[2]})
+    return recipe
 
+class Dish:
 
+    def __init__(self, name, recipe) -> None:
+        self.name = name
+        self.recipe = recipe
 
-# Необходимо написать программу для кулинарной книги.
+    # def get_recipe_from_file(self):
+    #     filepath = f'support_files/recipes/{self.name}.txt'
+    #     with open(filepath, 'rt', encoding = 'utf-8') as file:
+    #         for line in file:
+    #             if "|" in line:
+    #                 line = line.strip("\n")
+    #                 data = line.split(" | ")
+    #                 self.recipe.append({'ingredient_name': data[0],
+    #                         'quantity': int(data[1]),
+    #                         'measure': data[2]})
+       
+
+omelet = Dish("Омлет", get_recipe_from_file("Омлет"))
+# omelet.get_recipe_from_file()
+# china_duck = Dish("Утка по-пекински")
+# china_duck.get_recipe_from_file()
+print(omelet.recipe)
 
 # Список рецептов должен храниться в отдельном файле в следующем формате:
 
